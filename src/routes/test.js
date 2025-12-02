@@ -21,14 +21,9 @@ router.post("/test-validator", async (req, res) => {
   const prompt = req.body.prompt || "{}";
 
   try {
-    console.log("Prompt received:", prompt);
     const rawResponse = await askAI(prompt);
 
-    console.log("Raw AI response:", rawResponse);
-
     const jsonText = extractJson(rawResponse);
-
-    console.log("Extracted JSON text:", jsonText);
 
     if (!jsonText) {
       return res.status(400).json({ error: "No JSON found in AI response" });
@@ -37,8 +32,6 @@ router.post("/test-validator", async (req, res) => {
     const responseData = JSON.parse(jsonText);
 
     const validData = validateData(responseData, testResponseSchema);
-
-    console.log("Validation result:", validData);
 
     if (!validData.success) {
       return res
