@@ -1,5 +1,7 @@
 import express from "express";
 import { askAI } from "../services/aiClient.js";
+import { extractJson, validateData } from "../utils/helpers.js";
+import { testResponseSchema } from "../utils/responseSchema.js";
 
 const router = express.Router();
 
@@ -8,9 +10,49 @@ router.post("/chat", async (req, res) => {
 
   try {
     const response = await askAI(prompt);
-    return res.json({ response });
+    return res.json({ response: JSON.parse(response) });
   } catch (error) {
     console.log("Error in /test/chat:", error);
+    return res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
+router.post("/test-validator", async (req, res) => {
+  const prompt = req.body.prompt || "{}";
+
+  try {
+    console.log("Prompt received:", prompt);
+    const rawResponse = await askAI(prompt);
+
+    console.log("Raw AI response:", rawResponse);
+
+    const jsonText = extractJson(rawResponse);
+
+    console.log("Extracted JSON text:", jsonText);
+
+    if (!jsonText) {
+      return res.status(400).json({ error: "No JSON found in AI response" });
+    }
+
+    const responseData = JSON.parse(jsonText);
+
+    const validData = validateData(responseData, testResponseSchema);
+
+    console.log("Validation result:", validData);
+
+    if (!validData.success) {
+      return res
+        .status(400)
+        .json({ error: "Invalid response format", details: validData.errors });
+    }
+
+    return res.json({
+      message: "Validator works!",
+      data: responseData,
+      originalResponse: rawResponse,
+    });
+  } catch (error) {
+    console.log("Error in /test/test-validator:", error);
     return res.status(500).json({ error: "Internal Server Error" });
   }
 });
