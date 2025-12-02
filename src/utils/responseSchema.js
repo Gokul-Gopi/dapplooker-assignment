@@ -26,3 +26,14 @@ export const testResponseSchema = {
   },
   additionalProperties: false,
 };
+
+export const insightResponseSchema = {
+  $id: "InsightResponse",
+  type: "object",
+  required: ["reasoning", "sentiment"],
+  properties: {
+    reasoning: { type: "string" },
+    sentiment: { type: "string", enum: ["Bullish", "Bearish", "Neutral"] },
+  },
+  additionalProperties: false,
+};
