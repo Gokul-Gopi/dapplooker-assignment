@@ -52,6 +52,10 @@ router.post("/:id/insight", async (req, res) => {
             data.coinInfo.market_data.price_change_percentage_24h,
         },
       },
+      model: {
+        provider: "groq",
+        model_name: "llama-3.3-70b-versatile",
+      },
     };
 
     const formattedPrices = data.marketChart.prices.map(([ts, price]) => ({
