@@ -68,7 +68,7 @@ base_url = http://localhost:3000
 
 ### 📌 Important
 
-* Only APIs containing **P1** or **P2** are part of the assignment.
-* Rest of the endpoints were used internally for testing and can be ignored.
+* Only APIs containing the name **P1** or **P2** are part of the assignment.
+* Rest of the endpoints were used for testing and can be ignored.
 
 ---
