@@ -1,6 +1,6 @@
 # 🚀 Token Insights & HyperLiquid PnL API
 
-Backend Assignment – Node.js + Express
+Backend Assignment – Express JS
 
 A lightweight backend that implements **both assignment problems**:
 
@@ -16,8 +16,8 @@ This project uses CoinGecko (no key required) + Groq AI (free API key) + HyperLi
 ### 1️⃣ Clone the repo
 
 ```bash
-git clone <your-repo-url>
-cd <project>
+git clone git@github.com:Gokul-Gopi/dapplooker-assignment.git
+cd dapplooker-assignment
 ```
 
 ### 2️⃣ Install dependencies
