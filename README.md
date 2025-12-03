@@ -16,7 +16,7 @@ This project uses CoinGecko (no key required) + Groq AI (free API key) + HyperLi
 ### 1️⃣ Clone the repo
 
 ```bash
-git clone git@github.com:Gokul-Gopi/dapplooker-assignment.git
+git clone https://github.com/Gokul-Gopi/dapplooker-assignment.git
 cd dapplooker-assignment
 ```
 
