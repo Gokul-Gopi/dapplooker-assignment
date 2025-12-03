@@ -56,7 +56,7 @@ http://localhost:3000
 
 ### 📥 Import
 
-You'll find that postman collection in the root of the project which can be imported to your local postman for testing:
+You'll find the postman collection in the root of the project, which can be imported to your local postman for testing:
 
 ### ⚙️ Setup Environment
 
