@@ -38,10 +38,10 @@ GROQ_API_KEY=your_groq_api_key_here
 👉 You can generate a **free Groq API key** here:
 [https://console.groq.com/keys](https://console.groq.com/keys)
 
-### 4️⃣ Start the dev server
+### 4️⃣ Start the server
 
 ```bash
-pnpm dev
+pnpm start
 ```
 
 Backend will start at:
