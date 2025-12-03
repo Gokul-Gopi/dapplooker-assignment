@@ -7,13 +7,7 @@ import { insightResponseSchema } from "../utils/responseSchema.js";
 const router = express.Router();
 
 const baseUrl = "https://api.coingecko.com/api/v3/coins";
-
-const defaultInsight = {
-  reasoning:
-    "No insight could be generated, at the moment. Please try again later.",
-  sentiment:
-    "No insight could be generated, at the moment. Please try again later.",
-};
+const MAX_RETRIES = 3;
 
 router.post("/:id/insight", async (req, res) => {
   const id = req.params.id;
@@ -26,6 +20,7 @@ router.post("/:id/insight", async (req, res) => {
   const url = new URL(`${baseUrl}/${id}/market_chart`);
   url.searchParams.append("vs_currency", currency);
   url.searchParams.append("days", days);
+
   try {
     const data = await Promise.all([
       fetch(`${baseUrl}/${id}`).then((response) => response.json()),
@@ -52,6 +47,8 @@ router.post("/:id/insight", async (req, res) => {
             data.coinInfo.market_data.price_change_percentage_24h,
         },
       },
+      insight:
+        "No insight could be generated, at the moment. Please try again later.",
       model: {
         provider: "groq",
         model_name: "llama-3.3-70b-versatile",
@@ -91,27 +88,39 @@ router.post("/:id/insight", async (req, res) => {
       currency
     );
 
-    const rawResponse = await askAI(prompt);
+    for (let attempt = 1; attempt <= MAX_RETRIES; attempt++) {
+      try {
+        const rawResponse = await askAI(prompt);
 
-    const jsonText = extractJson(rawResponse);
+        const jsonText = extractJson(rawResponse);
 
-    if (!jsonText) {
-      tokenData.insight = defaultInsight;
-      return res.json(tokenData);
+        if (!jsonText) {
+          if (attempt === MAX_RETRIES) {
+            return res.json(tokenData);
+          }
+          continue;
+        }
+
+        const aiInsight = JSON.parse(jsonText);
+
+        const validData = validateData(aiInsight, insightResponseSchema);
+
+        if (!validData.success) {
+          if (attempt === MAX_RETRIES) {
+            return res.json(tokenData);
+          }
+          continue;
+        }
+
+        tokenData.insight = aiInsight;
+
+        return res.json(tokenData);
+      } catch (error) {
+        if (attempt === MAX_RETRIES) {
+          return res.json(tokenData);
+        }
+      }
     }
-
-    const responseData = JSON.parse(jsonText);
-
-    const validData = validateData(responseData, insightResponseSchema);
-
-    if (!validData.success) {
-      tokenData.insight = defaultInsight;
-      return res.json(tokenData);
-    }
-
-    tokenData.insight = responseData;
-
-    return res.json(tokenData);
   } catch (error) {
     console.log("Error in /:id/insight:", error);
     return res.status(500).json({ error: "Internal Server Error" });
