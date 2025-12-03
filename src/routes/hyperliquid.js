@@ -1,5 +1,14 @@
 import express from "express";
-import { hlInfo } from "../utils/helpers.js";
+import {
+  accumulateFills,
+  accumulateFunding,
+  accumulateLedger,
+  applyUnrealizedToLastDay,
+  buildSummary,
+  computeNetAndEquity,
+  createDailyBuckets,
+  hlInfo,
+} from "../utils/helpers.js";
 
 const router = express.Router();
 
@@ -36,13 +45,34 @@ router.get("/:wallet", async (req, res) => {
       type: "clearinghouseState",
     });
 
-    console.log({ funding, ledger, fills, state });
+    const daily = createDailyBuckets(start, end);
+    accumulateFunding(daily, funding);
+    accumulateLedger(daily, ledger);
+    accumulateFills(daily, fills);
+    applyUnrealizedToLastDay(daily, state);
+
+    computeNetAndEquity(daily, 0);
+
+    const summary = buildSummary(daily);
+
+    const diagnostic = {
+      last_api_call: new Date().toISOString(),
+      data_source: "hyperliquid",
+      notes: "PnL calculated using daily close prices",
+    };
+
+    return res.json({
+      wallet,
+      start,
+      end,
+      daily: Object.values(daily),
+      summary,
+      diagnostic,
+    });
   } catch (error) {
     console.error("Error fetching Hyperliquid data:", error);
     return res.status(500).json({ error: "Internal Server Error" });
   }
-
-  return res.json({ status: "Hyperliquid route is operational" });
 });
 
 export default router;
