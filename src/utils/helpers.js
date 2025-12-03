@@ -23,3 +23,21 @@ export const extractJson = (text) => {
 
   return match ? match[0] : null;
 };
+
+export const hlInfo = async (body) => {
+  const url = "https://api.hyperliquid.xyz/info";
+
+  try {
+    const res = await fetch(url, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(body),
+    });
+
+    console.log({ res });
+
+    return res.json();
+  } catch (error) {
+    throw error;
+  }
+};
