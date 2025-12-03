@@ -1,0 +1,201 @@
+{
+	"info": {
+		"_postman_id": "e4b47724-5542-443b-8772-8bf43f3ad770",
+		"name": "dapplooper-assignment",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "19339350"
+	},
+	"item": [
+		{
+			"name": "P1: token insight",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{ \r\n    \"vs_currency\": \"usd\", \r\n    \"history_days\": 30\r\n} \r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/api/token/:id/insight",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"token",
+						":id",
+						"insight"
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "chainlink"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "P2: daily wallet pnl",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{base_url}}/api/hyperliquid/:wallet?start=2025-11-01&end=2025-12-01",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"hyperliquid",
+						":wallet"
+					],
+					"query": [
+						{
+							"key": "start",
+							"value": "2025-11-01"
+						},
+						{
+							"key": "end",
+							"value": "2025-12-01"
+						}
+					],
+					"variable": [
+						{
+							"key": "wallet",
+							"value": "0x2b804617c6f63c040377e95bb276811747006f4b"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "hello world",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "chat",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"prompt\": \"You are an AI that must output ONLY valid JSON.\\nNo explanations. No markdown. No comments.\\nIf you cannot answer, output an empty JSON object {}.\\n\\nTask:\\nGiven the following token data, generate a JSON insight with this structure:\\n\\n{\\n  \\\"reasoning\\\": \\\"string\\\",\\n  \\\"sentiment\\\": \\\"Bullish|Bearish|Neutral\\\",\\n  \\\"risks\\\": [\\\"string\\\"],\\n  \\\"opportunities\\\": [\\\"string\\\"]\\n}\\n\\nToken data:\\n- name: Chainlink\\n- symbol: LINK\\n- price_usd: 7.23\\n- market_cap_usd: 3500000000\\n- volume_usd: 120000000\\n- price_change_24h: -1.2\\n\\nReturn ONLY the JSON object.\"\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/api/test/chat",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"test",
+						"chat"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "test-validator",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"prompt\": \"You are an AI that must output ONLY valid JSON.\\n\\nFollow this exact structure:\\n\\n{\\n  \\\"status\\\": \\\"success\\\",\\n  \\\"user\\\": {\\n    \\\"id\\\": \\\"string\\\",\\n    \\\"profile\\\": {\\n      \\\"username\\\": \\\"string\\\",\\n      \\\"age\\\": 0\\n    }\\n  }\\n}\\n\\nRules:\\n- Output JSON ONLY.\\n- No explanations.\\n- No markdown.\\n- No backticks.\\n- Do not wrap the entire JSON in quotes.\\n- Do not add extra fields.\\n- Make sure age is a number.\\n\\nYour task: Fill in realistic example values and return only the JSON above.\"\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/api/test/test-validator",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"test",
+						"test-validator"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "testing hyperliquid endpoint",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"type\": \"clearinghouseState\",\r\n  \"user\": \"0x2b804617c6f63c040377e95bb276811747006f4b\"\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://api.hyperliquid.xyz/info",
+					"protocol": "https",
+					"host": [
+						"api",
+						"hyperliquid",
+						"xyz"
+					],
+					"path": [
+						"info"
+					],
+					"query": [
+						{
+							"key": "start",
+							"value": "2024-01-01",
+							"disabled": true
+						},
+						{
+							"key": "end",
+							"value": "2024-01-03",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
