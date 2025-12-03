@@ -182,3 +182,7 @@ export const buildSummary = (daily) => {
     equity_end_usd: equityEnd,
   };
 };
+
+export const isValidDate = (x) => {
+  return /^\d{4}-\d{2}-\d{2}$/.test(x) && !isNaN(new Date(x).getTime());
+};
