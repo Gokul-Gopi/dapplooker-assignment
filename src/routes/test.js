@@ -10,7 +10,7 @@ router.post("/chat", async (req, res) => {
 
   try {
     const response = await askAI(prompt);
-    return res.json({ response: JSON.parse(response) });
+    return res.json({ response });
   } catch (error) {
     return res.status(500).json({ error: "Internal Server Error" });
   }

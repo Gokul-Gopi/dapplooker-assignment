@@ -88,6 +88,7 @@ router.post("/:id/insight", async (req, res) => {
       currency
     );
 
+    // Retry if AI response is invalid
     for (let attempt = 1; attempt <= MAX_RETRIES; attempt++) {
       try {
         const rawResponse = await askAI(prompt);
