@@ -39,7 +39,6 @@ export const askAI = async (prompt) => {
 
     return response;
   } catch (error) {
-    console.log("Error in askAI:", error);
     throw error;
   }
 };

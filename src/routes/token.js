@@ -122,7 +122,6 @@ router.post("/:id/insight", async (req, res) => {
       }
     }
   } catch (error) {
-    console.log("Error in /:id/insight:", error);
     return res.status(500).json({ error: "Internal Server Error" });
   }
 });

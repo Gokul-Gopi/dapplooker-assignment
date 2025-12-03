@@ -12,7 +12,6 @@ router.post("/chat", async (req, res) => {
     const response = await askAI(prompt);
     return res.json({ response: JSON.parse(response) });
   } catch (error) {
-    console.log("Error in /test/chat:", error);
     return res.status(500).json({ error: "Internal Server Error" });
   }
 });
@@ -45,7 +44,6 @@ router.post("/test-validator", async (req, res) => {
       originalResponse: rawResponse,
     });
   } catch (error) {
-    console.log("Error in /test/test-validator:", error);
     return res.status(500).json({ error: "Internal Server Error" });
   }
 });

@@ -121,7 +121,6 @@ router.get("/:wallet", async (req, res) => {
       diagnostics,
     });
   } catch (error) {
-    console.error("Error fetching Hyperliquid data:", error);
     return res.status(500).json({ error: "Internal Server Error" });
   }
 });
